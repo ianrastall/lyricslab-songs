@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tt xmlns="http://www.w3.org/ns/ttml" xmlns:ttm="http://www.w3.org/ns/ttml#metadata" xmlns:ttp="http://www.w3.org/ns/ttml#parameter" xmlns:dc="http://purl.org/dc/terms/" xmlns:ll="https://github.com/ianrastall/lyricslab-songs/ns/1" ttp:timeBase="media" ll:version="1" xml:lang="en">
+  <head>
+    <metadata>
+      <ttm:title>Morning Light (original format example)</ttm:title>
+      <dc:creator>MediaLab example</dc:creator>
+      <dc:description>Timing demonstration; no associated recording</dc:description>
+      <dc:source>Original demonstration text created for LyricsLab</dc:source>
+      <dc:license>CC0-1.0</dc:license>
+      <dc:contributor>MediaLab contributors</dc:contributor>
+    </metadata>
+  </head>
+  <body end="20.000000s">
+    <div xml:id="s1" ll:kind="verse" ttm:role="lyrics" begin="2.000000s" end="10.000000s">
+      <metadata><ttm:title>Verse 1</ttm:title></metadata>
+      <p xml:id="l1" xml:space="preserve" begin="0.000000s" end="4.333333s" ll:state="confirmed"><span begin="0.000000s" end="1.166667s" ll:state="estimated">Morning</span> <span begin="1.166667s" end="2.000000s" ll:state="estimated">light</span> <span begin="2.000000s" end="3.000000s" ll:state="estimated">across</span> <span begin="3.000000s" end="3.500000s" ll:state="estimated">the</span> <span begin="3.500000s" end="4.333333s" ll:state="estimated">floor</span></p>
+      <p xml:id="l2" xml:space="preserve" begin="4.333333s" end="8.000000s" ll:state="confirmed"><span begin="0.000000s" end="0.666667s" ll:state="estimated">Open</span> <span begin="0.666667s" end="1.833333s" ll:state="estimated">windows</span> <span begin="1.833333s" end="3.000000s" ll:state="estimated">welcome</span> <span begin="3.000000s" end="3.666667s" ll:state="estimated">more</span></p>
+    </div>
+    <div xml:id="s2" ll:kind="instrumental" ttm:role="music" begin="10.000000s" end="14.000000s">
+      <metadata><ttm:title>Instrumental</ttm:title></metadata>
+    </div>
+    <div xml:id="s3" ll:kind="chorus" ttm:role="lyrics" begin="14.000000s" end="20.000000s">
+      <metadata><ttm:title>Chorus</ttm:title></metadata>
+      <p xml:id="l3" xml:space="preserve" begin="0.000000s" end="6.000000s" ll:state="confirmed"><span begin="0.000000s" end="2.000000s" ll:state="estimated">Another</span> <span begin="2.000000s" end="3.428571s" ll:state="estimated">quiet</span> <span begin="3.428571s" end="4.285714s" ll:state="estimated">day</span> <span begin="4.285714s" end="6.000000s" ll:state="estimated">begins</span></p>
+    </div>
+  </body>
+</tt>

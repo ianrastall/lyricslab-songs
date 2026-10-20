@@ -1,0 +1,14 @@
+name: Validate song TTML
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - run: cargo test --locked
+      - run: python3 -m pip install -r requirements.txt
+      - run: python3 scripts/check.py
