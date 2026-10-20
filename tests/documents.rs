@@ -102,6 +102,26 @@ fn windows_textbox_carriage_returns_split_lines() {
     assert_eq!(s.sections[0].lines.len(), 2);
 }
 #[test]
+fn nested_ttml_rounding_preserves_containment_after_editing_displayed_times() {
+    for end in [0.1, 7.393939, 12.0, 20.0, 86400.0] {
+        let mut s=document::from_text("[Verse 1]\nThe morning light is shining through the window\nAnother quiet day begins\nWe open every door and welcome all our friends").unwrap();
+        s.sections[0].start = Some(0.0);
+        s.sections[0].end = Some(end);
+        timing::estimate(&mut s, 0).unwrap();
+        // Applying a displayed line range quantizes it while estimated words retain precision.
+        let l = &mut s.sections[0].lines[0];
+        l.timing.end = l
+            .timing
+            .end
+            .map(|t| (t * 1_000_000.0).round() / 1_000_000.0);
+        for l in &mut s.sections[0].lines {
+            l.timing.state = "confirmed".into();
+        }
+        let xml = document::to_xml(&s).unwrap();
+        document::from_xml(&xml).unwrap();
+    }
+}
+#[test]
 fn lyric_timings_cannot_cross_an_instrumental_without_section_bounds() {
     let mut s = timed();
     s.sections[2].start = None;

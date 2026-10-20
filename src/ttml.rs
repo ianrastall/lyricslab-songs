@@ -16,7 +16,17 @@ fn attr(out: &mut String, k: &str, v: &str) {
 }
 fn offset(out: &mut String, k: &str, v: Option<f64>, base: f64) {
     if let Some(v) = v {
-        write!(out, " {k}=\"{:.6}s\"", (v - base).max(0.0)).unwrap();
+        // Quantize absolute positions first. Independently rounding (value - parent) can
+        // accumulate through div/p/span and put a word beyond its containing line on reload.
+        let micros =
+            ((v * 1_000_000.0).round() as i64 - (base * 1_000_000.0).round() as i64).max(0);
+        write!(
+            out,
+            " {k}=\"{}.{:06}s\"",
+            micros / 1_000_000,
+            micros % 1_000_000
+        )
+        .unwrap();
     }
 }
 fn times(out: &mut String, t: &Timing, base: f64) {
@@ -34,6 +44,20 @@ fn meta(out: &mut String, k: &str, v: &str) {
 }
 pub fn to_xml(song: &Song) -> Result<String> {
     song.validate()?;
+    let ranges = song.sections.iter().flat_map(|s| {
+        std::iter::once((s.start, s.end)).chain(s.lines.iter().flat_map(|l| {
+            std::iter::once((l.timing.start, l.timing.end))
+                .chain(l.words.iter().map(|w| (w.timing.start, w.timing.end)))
+        }))
+    });
+    for (start, end) in ranges {
+        if start
+            .zip(end)
+            .is_some_and(|(a, b)| (b * 1_000_000.0).round() <= (a * 1_000_000.0).round())
+        {
+            return Err("A range is shorter than TTML's one-microsecond save precision. Increase the range before saving.".into());
+        }
+    }
     let mut out = format!(
         "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<tt xmlns=\"{TT}\" xmlns:ttm=\"{TTM}\" xmlns:ttp=\"{TTP}\" xmlns:dc=\"{DC}\" xmlns:ll=\"{LL}\" ttp:timeBase=\"media\" ll:version=\"1\""
     );
